@@ -4,6 +4,7 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,11 +48,11 @@ public class ObserverActor24 extends ActorBasic24 {
 			if (this.getName().equals("obslogger")) {
 				CommUtils.outcyan(name + " | log " + msg.msgContent() + " " + Thread.currentThread().getName());
 				bw = new BufferedWriter(this.fw);
-				bw.append(msg.msgReceiver() + " | " + msg.msgContent() + "\n");
+				bw.append(msg.msgReceiver() + " to " + msg.msgSender() + " | "+ msg.msgContent() + " | at " + LocalDateTime.now() + "\n");
 				bw.close();
 			}
 		}
-
+		
 	}
 
 }
