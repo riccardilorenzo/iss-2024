@@ -245,30 +245,47 @@ div.imagedesc{
 
  
 <div class="remark">
-	<p>Estendere la libreria data (naiveactors24) con il pattern Observer.</p>
+	Costruire un sistema software distribuito costituio da N (N &ge; 1) Produttori che inviano informazione a 1 Consumatore, il quale deve elaborare tale informazione.
+	La dislocazione dei componenti sui nodi di elaborazione pu&ograve; essere:
+	<ul>
+		<li>OneNode: tutti i componenti operano nello stesso nodo;</li>
+		<li>TwoNodes: gli N Produttori operano in uno stesso nodo, mentre il Consumatore opera in un diverso nodo;</li>
+		<li>ManyNodes: il Consumatore opera in suo proprio nodo, mentre i Produttori operano su K nodi diversi (1 &lt; K &le; N).</li>
+	</ul>
 </div>
 
  
 
 <h2>Requirement analysis</h2>
-<div class="remark">
-	<p>Dovranno essere previste due entit&agrave;: una detta Observable, che conterr&agrave; l'insieme delle entit&agrave; che vogliono monitorare lo stato e ricevere gli aggiornamenti della prima, ed una detta OBserver, che si registra presso un Observable (publisher-subscriber). Entrambe le entit&agrave; possono essere replicate N volte.</p>
+<ol>
+	<li>Il sistema dovr&agrave; prevedere N + 1 entit&agrave;</li>
+	<li>Le componenti del sistema, tuttavia, saranno solo 2: Produttore e Consumatore</li>
+	<li>La componente Produttore pu&ograve; essere replicata molteplici volte</li>
+	<li>Deve sussistere un protocollo condiviso per la comunicazione tra le entit&agrave; Produttore e quella Consumatore; non &egrave; necessario il viceversa</li>
+	<li>Il Consumatore dovr&agrave; essere referenziabile in qualche modo</li>
+	<li>Deve essere stabilito un formato comune per le informazioni scambiate</li>
+</ol>
 </div>
 
 <h2>Problem analysis</h2>
-<div class="remark">
-	<p>L'Observable deve essere capace di una comunicazione multicast, in quanto deve notificare i propri aggiornamenti a molteplici entit&agrave; Observer, mentre questi ultimi dovranno essere dotati della capacit&agrave; di ricevere aggiornamenti dalla prima. Si prevede quindi un canale bidirezionale di controllo, e uno monodirezionale (Observable to Observer(s)) di dati.</p>
-</div>
+<ol>
+	<li>Indipendentemente dalla dislocazione dei componenti, il cliente sar&agrave; il Produttore mentre il servitore sar&agrave; il Consumatore</li>
+	<li>La modalit&agrave; con cui il Consumatore sar&agrave; raggiungibile consiste nell'apertura di una porta di rete, nota a tutti i Produttore</li>
+	<li>I messaggi saranno costituiti da una stringa di opportuno formato</li>
+</ol>
 
 <h2>Test plans</h2> 
-<div class="remark">
-	<p>A seguito della creazione e/o della registrazione di un Observer presso un Observable, l'Observer deve ricevere tutti gli aggiornamenti previsti dall'Observable.</p>
-</div>
+<ul>
+	<li>Quando viene inviata una comunicazione da un Produttore al Consumatore, la connessione deve essere stabilita</li>
+	<li>Il Consumatore dovr&agrave; elaborare l'informazione come richiesto</li>
+	<li>Il Consumatore deve condividere il proprio nodo esclusivamente con tutti i Produttori o con nessuno</li>
+	<li>Un certo Consumatore deve salvare, alla ricezione di un particolare tipo di messaggio, su un file di log il messaggio</li>
+</ul>
 
 <h2>Project</h2> 
-<div class="remark">
-	<p>Per questioni di praticit&agrave; si &egrave; scelto di optare per un riuso del codice delle classi Actor24Receiver (per Observable) e Actor24Sender (per Observer), estendendole. In questo modo l'implementazione di elabMsg() &egrave; gi&agrave; presente.<br>Lato Observable sono stati previsti i metodi <b>register()</b>, <b>unregister()</b> e <b>updateObservers()</b>, mentre lato Observer sono implementati i metodi <b>notify()</b> (che riceve la notizia di aggiornamento ed &egrave; chiamato dall'Observable) e <b>observe()</b>.</p>
-</div>
+<ul>
+	<li>L'architettura scelta &egrave; quella publisher-subscriber ad attori</li>
+</ul>
 </div>
 
 <h2>Testing</h2> 
@@ -294,7 +311,7 @@ div.imagedesc{
 
 <div style="background-color:rgba(86, 56, 253, 0.9); width:100%;text-align:left;color:white">
 By Lorenzo Riccardi email: lorenzo.riccardi@studio.unibo.it, 
-<img src="https://i.imgur.com/vd9o7EY.png" alt="mbot" width="15%" height="15%">
+<img src="https://i.imgur.com/vd9o7EY.png" width="15%" height="15%">
 GIT repo: https://github.com/riccardilorenzo/iss-2024
 </div> 
 </body>
