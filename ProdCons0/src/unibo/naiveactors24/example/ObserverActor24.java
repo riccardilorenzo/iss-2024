@@ -48,7 +48,7 @@ public class ObserverActor24 extends ActorBasic24 {
 			if (this.getName().equals("obslogger")) {
 				CommUtils.outcyan(name + " | log " + msg.msgContent() + " " + Thread.currentThread().getName());
 				bw = new BufferedWriter(this.fw);
-				bw.append(msg.msgReceiver() + " to " + msg.msgSender() + " | "+ msg.msgContent() + " | at " + LocalDateTime.now() + "\n");
+				bw.append(msg.msgSender() + " to " + msg.msgReceiver() + " | "+ msg.msgContent() + " | at " + LocalDateTime.now() + "\n");
 				bw.close();
 			}
 		}
