@@ -18,17 +18,19 @@ public class MainExampleNaiveActors24 {
         ActorContext24 ctx1 = new ActorContext24("ctx1", "localhost", port1);
         CommUtils.outblue("MainExampleTowardsActors24 CREA GLI ATTORI ");
 
-        ObservableActor24 a1   = new ObservableActor24("observable",ctx1);
-        ObserverActor24 a2 = new ObserverActor24("a2",ctx1, a1);
-        ObserverActor24 a3 = new ObserverActor24("obs1",ctx1, a1);
-        ObserverActor24 a4 = new ObserverActor24("obs2",ctx1); a4.observe(a1);
+        ObserverActor24 a1   = new ObserverActor24("obslogger",ctx1);
+        ObserverActor24 a2 = new ObserverActor24("a1",ctx1);
+        ObserverActor24 a3 = new ObserverActor24("a2",ctx1);
+        a1.register(a2); a1.register(a3);
+        a3.register(a2);
 
         ctx1.showActorNames();
         
         a1.activateAndStart();
         a2.activateAndStart();
         a3.activateAndStart();
-        a4.activateAndStart();
+        
+        a2.updateResource("iamtesting");
         
         alienCaller();
     }
