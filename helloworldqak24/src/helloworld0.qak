@@ -18,9 +18,9 @@ QActor display context ctxhello{
 	State s0 initial {
 		println("$name START") color blue
 	}
-	Transition t0 whenMsg info -> handleInfo
 	
 	State handleInfo {
 		printCurrentMessage
 	}
+	Transition t0 whenMsg info -> handleInfo
 }

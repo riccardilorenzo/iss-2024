@@ -30,7 +30,6 @@ class Display ( name: String, scope: CoroutineScope, isconfined: Boolean=false  
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition(edgeName="t00",targetState="handleInfo",cond=whenDispatch("info"))
 				}	 
 				state("handleInfo") { //this:State
 					action { //it:State
@@ -41,6 +40,7 @@ class Display ( name: String, scope: CoroutineScope, isconfined: Boolean=false  
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
+					 transition(edgeName="t00",targetState="handleInfo",cond=whenDispatch("info"))
 				}	 
 			}
 		}
