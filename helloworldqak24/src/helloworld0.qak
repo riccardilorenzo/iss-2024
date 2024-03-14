@@ -7,4 +7,4 @@ QActor worker context ctxhello{
 		println("Hello world") color magenta
 		[# CommUtils.outblue("Hello world again") #]
 	}
-}    
+}
