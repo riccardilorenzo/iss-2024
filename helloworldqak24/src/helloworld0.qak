@@ -1,26 +1,36 @@
 System helloworld0
 
-Dispatch info : info(N) "Informazione inviata dal worker al display"	// Viene prima dei contesti perché indipendenti da essi, sono globali in tutto il sistema
-// (cont.) tutti devono parlare gli stessi messaggi
+	  // msgID : payload
+Dispatch info : info(N) "commento"
 
 Context ctxhello ip [host="localhost" port=8000] 
 
+
+
 QActor worker context ctxhello{
 	State s0 initial{
-		println("Hello world") color magenta			// linguaggio QAK, non Turing completo
-		[# CommUtils.outblue("Hello world again") #]	// [# #] è codice Kotlin, che è Turing completo
-	
-		forward display -m info : info(10)
+		println("Hello $name") color magenta
+		[# CommUtils.outblue("Hello world again") #]
+		
+		// invio di una dispatch
+		forward display -m info : info(10)	
 	}
-}
+} 
 
 QActor display context ctxhello{
-	State s0 initial {
-		println("$name START") color blue
-	}
-	
-	State handleInfo {
-		printCurrentMessage
+	State s0 initial{
+		println("Sono un $name") color red
 	}
 	Transition t0 whenMsg info -> handleInfo
-}
+		
+	State handleInfo {
+		printCurrentMessage
+		
+		onMsg(info: info(N)){
+			println("$name ${payloadArg(0)}") color blue
+		}
+	}
+	
+} 
+
+
