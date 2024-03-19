@@ -1,6 +1,8 @@
 System prodcons0
 
 Dispatch info : info(N) 
+Request req : req(N)
+Reply rep : rep(N) for req
 
 Context myctx ip [host="localhost" port=8000] 
 
@@ -9,6 +11,7 @@ QActor consumer context myctx{
 		println("Sono un $name") color red
 	}
 	Transition t0 whenMsg info -> handleInfo
+	Transition t1 whenMsg req -> handleReq
 		
 	State handleInfo {
 		printCurrentMessage
@@ -17,7 +20,14 @@ QActor consumer context myctx{
 			[# CommUtils.outgreen("Producer - Elaborato messaggio info") #]
 		}
 	}
-	Goto s0
+	
+	State handleReq {
+		printCurrentMessage
+		
+		onMsg(req: req(N)) {
+			replyTo req with rep:rep(1)
+			println("$name - risposto a $req") color blue
+		}
 } 
 
 QActor producer1 context myctx{
@@ -26,7 +36,7 @@ QActor producer1 context myctx{
 		
 		[# Thread.sleep(200) #]
 		
-		forward display -m info : info(10)	
+		request consumer -m req:req(14)
 	}
 } 
 
@@ -36,6 +46,6 @@ QActor producer2 context myctx{
 		
 		[# Thread.sleep(200) #]
 		
-		forward display -m info : info(20)	
+		forward consumer -m info : info(20)	
 	}
 }
