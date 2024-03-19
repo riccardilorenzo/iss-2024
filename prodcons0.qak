@@ -1,0 +1,41 @@
+System prodcons0
+
+Dispatch info : info(N) 
+
+Context myctx ip [host="localhost" port=8000] 
+
+QActor consumer context myctx{
+	State s0 initial{
+		println("Sono un $name") color red
+	}
+	Transition t0 whenMsg info -> handleInfo
+		
+	State handleInfo {
+		printCurrentMessage
+		
+		onMsg(info: info(N)){
+			[# CommUtils.outgreen("Producer - Elaborato messaggio info") #]
+		}
+	}
+	Goto s0
+} 
+
+QActor producer1 context myctx{
+	State s0 initial{
+		println("Hello $name") color magenta
+		
+		[# Thread.sleep(200) #]
+		
+		forward display -m info : info(10)	
+	}
+} 
+
+QActor producer2 context myctx{
+	State s0 initial{
+		println("Hello $name") color magenta
+		
+		[# Thread.sleep(200) #]
+		
+		forward display -m info : info(20)	
+	}
+}

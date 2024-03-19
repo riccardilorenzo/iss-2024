@@ -5,18 +5,6 @@ Dispatch info : info(N) "commento"
 
 Context ctxhello ip [host="localhost" port=8000] 
 
-
-
-QActor worker context ctxhello{
-	State s0 initial{
-		println("Hello $name") color magenta
-		[# CommUtils.outblue("Hello world again") #]
-		
-		// invio di una dispatch
-		forward display -m info : info(10)	
-	}
-} 
-
 QActor display context ctxhello{
 	State s0 initial{
 		println("Sono un $name") color red
@@ -33,4 +21,15 @@ QActor display context ctxhello{
 	
 } 
 
+QActor worker context ctxhello{
+	State s0 initial{
+		println("Hello $name") color magenta
+		[# CommUtils.outblue("Hello world again") #]
+		
+		[# Thread.sleep(200) #]
+		
+		// invio di una dispatch
+		forward display -m info : info(10)	
+	}
+} 
 
