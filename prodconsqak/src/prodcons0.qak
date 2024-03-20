@@ -1,17 +1,19 @@
 System prodcons0
 
-Dispatch info : info(N) 
-Request req : req(N)
-Reply rep : rep(N) for req
+Dispatch info : info(N)
 
-Context myctx ip [host="localhost" port=8000] 
+Request myreq : myreq(N)
 
-QActor consumer context myctx{
+Reply rep : rep(N) for myreq
+
+Context ctxcustom ip [host="localhost" port=8000] 
+
+QActor consumer context ctxcustom{
 	State s0 initial{
 		println("Sono un $name") color red
 	}
 	Transition t0 whenMsg info -> handleInfo
-	Transition t1 whenMsg req -> handleReq
+	
 		
 	State handleInfo {
 		printCurrentMessage
@@ -20,27 +22,30 @@ QActor consumer context myctx{
 			[# CommUtils.outgreen("Producer - Elaborato messaggio info") #]
 		}
 	}
+	Transition t1 whenRequest myreq -> handleReq
 	
 	State handleReq {
 		printCurrentMessage
 		
-		onMsg(req: req(N)) {
-			replyTo req with rep:rep(1)
-			println("$name - risposto a $req") color blue
+		onMsg(myreq: myreq(N)) {
+			replyTo myreq with rep:rep(1)
+			println("$name - risposto a $myreq") color blue
 		}
+		
+	}
 } 
 
-QActor producer1 context myctx{
+QActor producer1 context ctxcustom{
 	State s0 initial{
 		println("Hello $name") color magenta
 		
 		[# Thread.sleep(200) #]
 		
-		request consumer -m req:req(14)
+		request consumer -m myreq:myreq(14)
 	}
 } 
 
-QActor producer2 context myctx{
+QActor producer2 context ctxcustom{
 	State s0 initial{
 		println("Hello $name") color magenta
 		
