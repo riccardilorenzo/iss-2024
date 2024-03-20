@@ -38,7 +38,7 @@ class Consumer ( name: String, scope: CoroutineScope, isconfined: Boolean=false 
 						 	   
 						if( checkMsgContent( Term.createTerm("info(N)"), Term.createTerm("info(N)"), 
 						                        currentMsg.msgContent()) ) { //set msgArgList
-								 CommUtils.outgreen("Producer - Elaborato messaggio info")  
+								 CommUtils.outgreen("Producer - Elaborato messaggio INFO")  
 						}
 						//genTimer( actor, state )
 					}
@@ -54,7 +54,7 @@ class Consumer ( name: String, scope: CoroutineScope, isconfined: Boolean=false 
 						if( checkMsgContent( Term.createTerm("myreq(N)"), Term.createTerm("myreq(N)"), 
 						                        currentMsg.msgContent()) ) { //set msgArgList
 								answer("myreq", "rep", "rep(1)"   )  
-								CommUtils.outblue("$name - risposto a $myreq")
+								CommUtils.outblue("$name - risposto alla richiesta")
 						}
 						//genTimer( actor, state )
 					}

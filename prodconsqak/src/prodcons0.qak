@@ -19,7 +19,7 @@ QActor consumer context ctxcustom{
 		printCurrentMessage
 		
 		onMsg(info: info(N)){
-			[# CommUtils.outgreen("Producer - Elaborato messaggio info") #]
+			[# CommUtils.outgreen("Producer - Elaborato messaggio INFO") #]
 		}
 	}
 	Transition t1 whenRequest myreq -> handleReq
@@ -29,7 +29,7 @@ QActor consumer context ctxcustom{
 		
 		onMsg(myreq: myreq(N)) {
 			replyTo myreq with rep:rep(1)
-			println("$name - risposto a $myreq") color blue
+			println("$name - risposto alla richiesta") color blue
 		}
 		
 	}
