@@ -17,10 +17,11 @@ eventedgeattr = {
     'color': 'red',
     'style': 'dotted'
 }
-with Diagram('helloworld0Arch', show=False, outformat='png', graph_attr=graphattr) as diag:
+with Diagram('helloworld6Arch', show=False, outformat='png', graph_attr=graphattr) as diag:
   with Cluster('env'):
      sys = Custom('','./qakicons/system.png')
 ### see https://renenyffenegger.ch/notes/tools/Graphviz/attributes/label/HTML-like/index
      with Cluster('ctxhello', graph_attr=nodeattr):
+          display=Custom('display','./qakicons/symActorSmall.png')
           worker=Custom('worker','./qakicons/symActorSmall.png')
 diag

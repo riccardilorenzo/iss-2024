@@ -1,7 +1,10 @@
 %====================================================================================
-% helloworld0 description   
+% helloworld2 description   
 %====================================================================================
+dispatch( out, out(TERM) ).
 %====================================================================================
-context(ctxhello, "localhost",  "TCP", "8000").
- qactor( worker, ctxhello, "it.unibo.worker.Worker").
+context(ctxhello, "localhost",  "TCP", "8001").
+ qactor( display, ctxhello, "DisplayCodedQak").
+ static(display).
+  qactor( worker, ctxhello, "it.unibo.worker.Worker").
  static(worker).

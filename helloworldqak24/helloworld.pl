@@ -1,7 +1,7 @@
 %====================================================================================
-% helloworld0 description   
+% helloworld description   
 %====================================================================================
 %====================================================================================
-context(ctxhello, "localhost",  "TCP", "8000").
+context(ctxhello, "localhost",  "TCP", "8001").
  qactor( worker, ctxhello, "it.unibo.worker.Worker").
  static(worker).

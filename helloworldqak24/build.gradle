@@ -16,9 +16,6 @@ plugins {
     //Per poter usare qakfacadegui23-1.0 che usa Spring
     id 'org.springframework.boot' version '2.7.16'
     id 'io.spring.dependency-management' version '1.0.15.RELEASE'
-    
-    //Per poter usare javafx
-    //id 'org.openjfx.javafxplugin' version '0.1.0'
 }
 
 version '1.0'
@@ -38,11 +35,6 @@ repositories {
     mavenCentral()
     flatDir {   dirs '../unibolibs'	 }
 }
-
-/*javafx {
-    version = "11"
-    modules =  ["javafx.controls", "javafx.fxml", "javafx.web", "javafx.graphics"]
-}*/
 
 dependencies {
     // Align versions of all Kotlin components
@@ -177,7 +169,6 @@ distributions {
         }
     }
 } 
-
 /*
 //TODO
 tasks.register('copyReport', Copy) {
