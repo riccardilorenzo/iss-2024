@@ -31,6 +31,7 @@ class Consumer ( name: String, scope: CoroutineScope, isconfined: Boolean=false 
 					sysaction { //it:State
 					}	 	 
 					 transition(edgeName="t00",targetState="handleInfo",cond=whenDispatch("info"))
+					transition(edgeName="t01",targetState="handleReq",cond=whenRequest("myreq"))
 				}	 
 				state("handleInfo") { //this:State
 					action { //it:State
@@ -45,7 +46,6 @@ class Consumer ( name: String, scope: CoroutineScope, isconfined: Boolean=false 
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition(edgeName="t11",targetState="handleReq",cond=whenRequest("myreq"))
 				}	 
 				state("handleReq") { //this:State
 					action { //it:State
@@ -53,7 +53,8 @@ class Consumer ( name: String, scope: CoroutineScope, isconfined: Boolean=false 
 						 	   
 						if( checkMsgContent( Term.createTerm("myreq(N)"), Term.createTerm("myreq(N)"), 
 						                        currentMsg.msgContent()) ) { //set msgArgList
-								answer("myreq", "rep", "rep(1)"   )  
+								 val X="${payloadArg(0)}"  
+								answer("myreq", "rep", "rep($X)"   )  
 								CommUtils.outblue("$name - risposto alla richiesta")
 						}
 						//genTimer( actor, state )

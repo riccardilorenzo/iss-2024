@@ -12,7 +12,7 @@ QActor consumer context ctxcustom{
 	State s0 initial{
 		println("Sono un $name") color red
 	}
-	Transition t0 whenMsg info -> handleInfo
+	Transition t0 whenMsg info -> handleInfo whenRequest myreq -> handleReq
 	
 		
 	State handleInfo {
@@ -22,13 +22,13 @@ QActor consumer context ctxcustom{
 			[# CommUtils.outgreen("Producer - Elaborato messaggio INFO") #]
 		}
 	}
-	Transition t1 whenRequest myreq -> handleReq
 	
 	State handleReq {
 		printCurrentMessage
 		
 		onMsg(myreq: myreq(N)) {
-			replyTo myreq with rep:rep(1)
+			[# val X="${payloadArg(0)}" #]
+			replyTo myreq with rep:rep($X)
 			println("$name - risposto alla richiesta") color blue
 		}
 		
