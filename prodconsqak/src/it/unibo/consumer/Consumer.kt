@@ -37,15 +37,13 @@ class Consumer ( name: String, scope: CoroutineScope, isconfined: Boolean=false 
 					action { //it:State
 						CommUtils.outcyan("$name in ${currentState.stateName} | $currentMsg | ${Thread.currentThread().getName()} n=${Thread.activeCount()}")
 						 	   
-						if( checkMsgContent( Term.createTerm("info(N)"), Term.createTerm("info(N)"), 
-						                        currentMsg.msgContent()) ) { //set msgArgList
-								 CommUtils.outgreen("Producer - Elaborato messaggio INFO")  
-						}
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
+					 transition(edgeName="t02",targetState="handleInfo",cond=whenDispatch("info"))
+					transition(edgeName="t03",targetState="handleReq",cond=whenRequest("myreq"))
 				}	 
 				state("handleReq") { //this:State
 					action { //it:State
@@ -53,15 +51,16 @@ class Consumer ( name: String, scope: CoroutineScope, isconfined: Boolean=false 
 						 	   
 						if( checkMsgContent( Term.createTerm("myreq(N)"), Term.createTerm("myreq(N)"), 
 						                        currentMsg.msgContent()) ) { //set msgArgList
-								 val X="${payloadArg(0)}"  
-								answer("myreq", "rep", "rep($X)"   )  
-								CommUtils.outblue("$name - risposto alla richiesta")
+								answer("myreq", "rep", "ack(${payloadArg(0)})"   )  
+								CommUtils.outblue("$name - risposto alla richiesta con ack(${payloadArg(0)}")
 						}
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
+					 transition(edgeName="t04",targetState="handleInfo",cond=whenDispatch("info"))
+					transition(edgeName="t05",targetState="handleReq",cond=whenRequest("myreq"))
 				}	 
 			}
 		}

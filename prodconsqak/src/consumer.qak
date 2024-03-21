@@ -1,0 +1,34 @@
+System prodcons0
+
+Dispatch info : info(N)
+Dispatch short : short(N)
+Request myreq : myreq(N)
+Reply rep : ack(N) for myreq
+
+Context ctxcustom ip [host="localhost" port=8015] 
+
+QActor consumer context ctxcustom{
+	State s0 initial{
+		println("Sono un $name") color red
+	}
+	Transition t0 whenMsg info -> handleInfo
+				  whenRequest myreq -> handleReq
+	
+		
+	State handleInfo {
+		printCurrentMessage
+	}
+	Transition t0 whenMsg info -> handleInfo
+				  whenRequest myreq -> handleReq
+	
+	State handleReq {
+		printCurrentMessage
+		
+		onMsg(myreq: myreq(N)) {
+			replyTo myreq with rep:ack($payloadArg(0))
+			println("$name - risposto alla richiesta con ack(${payloadArg(0)}") color blue
+		}
+	}
+	Transition t0 whenMsg info -> handleInfo
+				  whenRequest myreq -> handleReq
+}

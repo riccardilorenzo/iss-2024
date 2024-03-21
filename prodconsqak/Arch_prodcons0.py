@@ -23,8 +23,4 @@ with Diagram('prodcons0Arch', show=False, outformat='png', graph_attr=graphattr)
 ### see https://renenyffenegger.ch/notes/tools/Graphviz/attributes/label/HTML-like/index
      with Cluster('ctxcustom', graph_attr=nodeattr):
           consumer=Custom('consumer','./qakicons/symActorSmall.png')
-          producer1=Custom('producer1','./qakicons/symActorSmall.png')
-          producer2=Custom('producer2','./qakicons/symActorSmall.png')
-     producer1 >> Edge(color='magenta', style='solid', decorate='true', label='<myreq<font color="darkgreen"> rep</font> &nbsp; >',  fontcolor='magenta') >> consumer
-     producer2 >> Edge(color='blue', style='solid',  decorate='true', label='<info &nbsp; >',  fontcolor='blue') >> consumer
 diag
