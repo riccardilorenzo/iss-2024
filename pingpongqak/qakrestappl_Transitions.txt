@@ -1,0 +1,2 @@
+{"actor":"pinger", "msgType":"dispatch", "curstate":"sWait", "nextstate":"sPing", "msgId":"ping"}
+{"actor":"pinger", "msgType":"dispatch", "curstate":"sWait", "nextstate":"sPong", "msgId":"pong"}

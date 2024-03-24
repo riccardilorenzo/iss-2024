@@ -1,3 +1,0 @@
-{"actor":"consumer", "msgType":"dispatch", "curstate":"s0", "nextstate":"handleInfo", "msgId":"info"}
-{"actor":"consumer", "msgType":"dispatch", "curstate":"handleInfo", "nextstate":"handleInfo", "msgId":"info"}
-{"actor":"consumer", "msgType":"dispatch", "curstate":"handleReq", "nextstate":"handleInfo", "msgId":"info"}
