@@ -1,0 +1,2 @@
+{"actor":"ping", "msgType":"dispatch", "curstate":"s0", "nextstate":"handleBall", "msgId":"ball"}
+{"actor":"pong", "msgType":"dispatch", "curstate":"s0", "nextstate":"handleBall", "msgId":"ball"}

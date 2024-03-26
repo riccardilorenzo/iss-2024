@@ -16,9 +16,6 @@ plugins {
     //Per poter usare qakfacadegui23-1.0 che usa Spring
     id 'org.springframework.boot' version '2.7.16'
     id 'io.spring.dependency-management' version '1.0.15.RELEASE'
-    
-    //Per poter usare javafx
-    id 'org.openjfx.javafxplugin' version '0.1.0'
 }
 
 version '1.0'
@@ -37,11 +34,6 @@ repositories {
     // Use Maven Central for resolving dependencies.
     mavenCentral()
     flatDir {   dirs '../unibolibs'	 }
-}
-
-javafx {
-    version = "11"
-    modules =  ["javafx.controls", "javafx.fxml", "javafx.web", "javafx.graphics"]
 }
 
 dependencies {
@@ -147,7 +139,7 @@ eclipse {
 
 application {
     //Define the main class for the application.
-    mainClassName    = 'it.unibo.ctxhello.MainCtxhelloKt'
+    mainClassName    = 'it.unibo.ctxtest.MainCtxtestKt'
 }
  
  jar {
@@ -170,9 +162,9 @@ task dovesiamo {
 
 distributions {
     main {
-        distributionBaseName = 'helloworldqak24'
+        distributionBaseName = 'pingpong24'
         contents { 
-             from './helloworldqak24.pl'
+             from './pingpong24.pl'
              from './sysRules.pl'
              from './facadeConfig.json'
         }
@@ -183,7 +175,7 @@ task run0(type: JavaExec) {
     group = "Execution"
     description = "Run the main class with JavaExecTask"
     classpath = sourceSets.main.runtimeClasspath
-    main = 'it.unibo.ctxhello.MainCtxhelloKt'
+    main = 'it.unibo.ctxtest.MainCtxtestKt'
 }
 
 /*

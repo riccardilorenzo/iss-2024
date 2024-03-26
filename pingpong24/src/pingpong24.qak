@@ -1,0 +1,44 @@
+System pingpong24
+
+Dispatch ball : ball(N) "info exchanged"
+
+//Context ctxping ip [host="localhost" port=8014]
+//Context ctxpong ip [host="127.0.0.1" port=8015]
+Context ctxtest ip [host="localhost" port=8016]
+
+QActor ping context ctxtest {
+	State s0 initial {
+		println("I am $name") color magenta
+		[# var N = 1; #]
+		delay 500
+		forward pong -m ball : ball($N)
+		println("Ho inviato un messaggio a pong") color magenta
+	}
+	Transition t0 whenTime 2000 -> endOfExchange whenMsg ball -> handleBall
+	
+	State handleBall {
+		printCurrentMessage color magenta
+		
+		[# delay(1000); System.exit(0); #]
+	}
+	
+	State endOfExchange {
+		println("Non ho ricevuto risposta da pong, ho vinto!") color magenta
+		[# System.exit(0); #]
+	}
+}
+
+QActor pong context ctxtest {
+	State s0 initial {
+		println("I am $name") color green
+	}
+	Transition t0 whenMsg ball -> handleBall
+	
+	State handleBall {
+		printCurrentMessage color green
+		onMsg (ball : ball(X)) {
+			//forward ping -m ball : ball($payloadArg(0))
+			//println("Ho inviato un messaggio a ping") color green
+		}
+	}
+}
