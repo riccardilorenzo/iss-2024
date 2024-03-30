@@ -1,0 +1,58 @@
+System synchservice
+
+Request dojob : dojob(N)
+Reply jobdone : jobdone(N, K)
+
+Context ctx ip [host="localhost" port=8015]
+//Context ctxclient ip [host="127.0.0.1" port=8016]
+
+QActor calculator context ctx {
+	State s0 initial {
+		println("Calculator -- In avvio...") color magenta
+		delay 100
+		println("Calculator -- Avviato!") color magenta
+	}
+	Transition t0 whenRequest dojob -> handleJob
+	
+	State handleJob {
+		onMsg (dojob : dojob(K)) {
+			println("Calculator -- Ricevuto messaggio dojob(${payloadArg(0)})") color magenta
+			[#	tailrec fun fibonacciUsingTailRecursion(n: Int, a: Int = 0, b: Int = 1): Int {
+    				return if (n == 0) a else fibonacciUsingTailRecursion(n - 1, b, a + b)
+				}
+				
+				val N = payloadArg(0)
+				val R = fibonacciUsingTailRecursion(N.toInt())
+			#]
+			replyTo dojob with jobdone : jobdone($payloadArg(0), $R)
+		}
+	}
+	Transition t1 whenRequest dojob -> handleJob
+}
+
+QActor client context ctx {
+	State s0 initial {
+		println("Client -- Sto inizializzando...") color green
+		delay 500
+		request calculator -m dojob : dojob(10)
+	}
+	Transition t0 whenReply jobdone -> handleReply
+	
+	State handleReply {
+		onMsg (jobdone : jobdone(N, K)) {
+			printCurrentMessage
+			delay 500
+			request calculator -m dojob : dojob(35)
+		}
+	}
+	Transition t1 whenReply jobdone -> endActor
+	
+	State endActor {
+		onMsg (jobdone : jobdone(N, K)) {
+			printCurrentMessage
+			println("Client -- End, terminating...") color green
+			delay 1000
+			[# System.exit(0) #]
+		}
+	}
+}
