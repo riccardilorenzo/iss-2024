@@ -245,28 +245,35 @@ div.imagedesc{
 
  
 <div class="remark">
-Copy here the EXACT text fiven by the customer.
+Realizzare la versione distribuita del sistema PingPong24 con test automatizzato basato su referee.
 </div>
 
  
 
 <h2>Requirement analysis</h2>
-Occhio ai bias, i requisiti non specificano come l'informazione debba essere trasmessa e ricevuta!<br>
-L'analisi analizza le problematiche, legate al problema che abbiamo (se si parla di comunicazione Terra-Marte &egrave; diverso dal parlare di Terra-Terra, ad esempio)!<br>
-La cosa fondamentale &egrave; trovare lo spettro delle possibilit&agrave; delle forme di interazione che ci possono essere.<br>
-Ci sono due modi di comunicare: informazione richiesta o non richiesta (inviata autonomamente dai clienti).<br>
+Il sistema, che deve poter funzionare su pi&ugrave; nodi, deve prevedere due entit&agrave;, Pinger e Ponger, che si 
+scambino messaggi vicendevolmente a turno. Deve essere presente anche un arbitro che regoli e osservi lo stato della partita.
 </div>
 
 <h2>Problem analysis</h2>
-Qui si parla di architettura logica.<br>
-Si mettono in campo gli scenari diversi che possono presentarsi, come analista del problema. Bisogna evidenziare le scelte e le possibilit&agrave; che possono incontrarsi: questa scelta va fatta con criteri socio-economici, non tecnologici.<br>
+Il Pinger e il Ponger devono essere due entit&agrave; individuali e separate, che si scambiano messaggi ciascuno 
+di un proprio tipo. Il Referee deve fare da Observer verso Pinger e Ponger, nei messaggi di tipo Ping e Pong.
 
 
 <h2>Test plans</h2> 
-
+<ul>
+<li>Il Referee deve ricevere i messaggi Ping e Pong</li>
+<li>Il Pinger deve iniziare per primo a battere all'avvio della partita</li>
+<li>Il Ponger deve rispondere ad un messaggio Ping con un messaggio Pong</li>
+<li>Il Referee deve gestire correttamente l'inizio della partita</li>
+<li>Il Referee deve gestire correttamente la fine della partita</li>
+</ul>
 
 <h2>Project</h2> 
- 
+ Si prevede che, per l'inizio della partita, l'arbitro decida quando iniziare in base agli eventi lanciati da Pinger e Ponger, per 
+ poi permettere ad entrambe le entit&agrave; di passare in uno stato di gioco (si ricordi che Pinger e Ponger sono attori).
+ Inoltre, allo scadere di un timeout (quindi salvo la ricezione da parte dell'observer di messaggi di tipo Ping o Pong) la partita 
+ finisca ed entrambi Pinger e Ponger ne vengano informati attraverso un evento emesso da Referee.
 </div>
 
 <h2>Testing</h2> 
