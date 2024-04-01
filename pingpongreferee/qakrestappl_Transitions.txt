@@ -1,0 +1,5 @@
+{"actor":"pinger", "msgType":"dispatch", "curstate":"play", "nextstate":"play", "msgId":"pong"}
+{"actor":"ponger", "msgType":"dispatch", "curstate":"s0", "nextstate":"play", "msgId":"ping"}
+{"actor":"ponger", "msgType":"dispatch", "curstate":"play", "nextstate":"play", "msgId":"ping"}
+{"actor":"referee", "msgType":"dispatch", "curstate":"play", "nextstate":"play", "msgId":"ping"}
+{"actor":"referee", "msgType":"dispatch", "curstate":"play", "nextstate":"play", "msgId":"pong"}

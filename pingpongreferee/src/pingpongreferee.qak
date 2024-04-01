@@ -1,0 +1,115 @@
+System pingpongreferee
+
+Dispatch ping : ping(N)
+Dispatch pong : pong(N)
+Event connected : connected(N)
+Event start : start(N)
+Event end : end(N)
+// Todo (event?)
+
+Context ctxdef ip [host="localhost" port=8015]
+//Context ctxrem ip [host="127.0.0.1" port=8016]
+
+QActor pinger context ctxdef {
+	State s0 initial {
+		delay 500
+		println("$name -- Sono pronto!") color green
+		emit connected : connected(Pinger)
+	}
+	Transition t0 whenEvent start -> play
+	
+	State play {
+		onMsg (start : start(N)) {
+			printCurrentMessage color green
+			forward ponger -m ping : ping(0)
+			updateResource [# "ping(0)" #]
+		}
+		
+		onMsg (pong : pong(N)) {
+			printCurrentMessage color green
+			
+			[# var K = payloadArg(0).toInt() + 1 #]
+			delay 200
+			forward ponger -m ping : ping($K)
+			updateResource [# "ping(${K})" #]
+		}
+	}
+	Transition t1 whenMsg pong -> play whenEvent end -> endgame
+	
+	State endgame {
+		println("$name -- Ho vinto!") color green
+		terminate 0
+	}
+}
+
+QActor ponger context ctxdef {
+	[# val N = 0 #]
+	
+	State s0 initial {
+		delay 500
+		println("$name -- Sono pronto!") color magenta
+		emit connected : connected(Ponger)
+	}
+	Transition t0 whenMsg ping -> play
+	
+	State play {
+		onMsg (ping : ping(N)) {
+			printCurrentMessage color magenta
+			if [# payloadArg(0).toInt() < 4 #] {
+				delay 200
+				forward pinger -m pong : pong($payloadArg(0))
+				updateResource [# "pong(${payloadArg(0)})" #]
+			} else {
+				println("$name -- Ho sbagliato colpo!") color magenta
+			}
+		}
+	}
+	Transition t1 whenMsg ping -> play whenEvent end -> endgame
+	
+	State endgame {
+		println("$name -- Ho perso!") color magenta
+		terminate 0
+	}
+}
+
+QActor referee context ctxdef {
+	State s0 initial {
+		println("$name -- In attesa dei giocatori...") color cyan
+	}
+	Transition t0 whenEvent connected -> firstplayer
+	
+	State firstplayer {
+		onMsg (connected : connected(N)) {
+			println("Il giocatore ${payloadArg(0)} si è connesso!") color cyan
+			println("In attesa del secondo giocatore...") color cyan
+		}
+	}
+	Transition t1 whenEvent connected -> play
+	
+	State play {
+		onMsg (connected : connected(N)) {
+			println("Il giocatore ${payloadArg(0)} si è connesso!") color cyan
+			emit start : start(0)
+			println("Partita iniziata!") color cyan
+			
+			// Osserva i giocatori
+			observeResource pinger msgid ping
+			observeResource ponger msgid pong
+		}
+		
+		onMsg (ping : ping(N)) {
+			println("$name -- Ricevuto ping(${payloadArg(0)})") color cyan
+		}
+		onMsg (pong : pong(N)) {
+			println("$name -- Ricevuto pong(${payloadArg(0)})") color cyan
+		}
+	}
+	Transition t2 whenTime 3000 -> endgame whenMsg ping -> play whenMsg pong -> play
+	
+	State endgame {
+		println("Uno dei due giocatori ha perso, partita terminata!") color cyan
+		emit end : end(0)
+		delay 2000
+		[# System.exit(0) #]
+	}
+}
