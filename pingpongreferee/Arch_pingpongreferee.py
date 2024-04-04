@@ -17,6 +17,10 @@ eventedgeattr = {
     'color': 'red',
     'style': 'dotted'
 }
+evattr = {
+    'color': 'darkgreen',
+    'style': 'dotted'
+}
 with Diagram('pingpongrefereeArch', show=False, outformat='png', graph_attr=graphattr) as diag:
   with Cluster('env'):
      sys = Custom('','./qakicons/system.png')
@@ -26,7 +30,11 @@ with Diagram('pingpongrefereeArch', show=False, outformat='png', graph_attr=grap
           ponger=Custom('ponger','./qakicons/symActorSmall.png')
           referee=Custom('referee','./qakicons/symActorSmall.png')
      pinger >> Edge( label='connected', **eventedgeattr, decorate='true', fontcolor='red') >> sys
+     sys >> Edge( label='start', **evattr, decorate='true', fontcolor='darkgreen') >> pinger
+     sys >> Edge( label='end', **evattr, decorate='true', fontcolor='darkgreen') >> pinger
      ponger >> Edge( label='connected', **eventedgeattr, decorate='true', fontcolor='red') >> sys
+     sys >> Edge( label='end', **evattr, decorate='true', fontcolor='darkgreen') >> ponger
+     sys >> Edge( label='connected', **evattr, decorate='true', fontcolor='darkgreen') >> referee
      referee >> Edge( label='start', **eventedgeattr, decorate='true', fontcolor='red') >> sys
      referee >> Edge( label='end', **eventedgeattr, decorate='true', fontcolor='red') >> sys
      ponger >> Edge(color='blue', style='solid',  decorate='true', label='<pong &nbsp; >',  fontcolor='blue') >> pinger
