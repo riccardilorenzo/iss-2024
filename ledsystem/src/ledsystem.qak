@@ -1,0 +1,18 @@
+System ledsystem
+
+Event ledon : ledon(N)
+Event ledoff : ledoff(N)
+
+Context ctxled ip[host="localhost" port=8815]
+
+QActor ledusage context ctxled {
+	State s0 initial {
+		
+	}
+}
+
+QActor led context ctxled {
+	State s0 initial {
+		
+	}
+}
