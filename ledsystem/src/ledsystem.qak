@@ -7,12 +7,13 @@ Context ctxled ip[host="localhost" port=8815]
 
 QActor ledusage context ctxled {
 	State s0 initial {
-		
+		// manda segnale di led on e led off quando ti pare
 	}
 }
 
 QActor led context ctxled {
 	State s0 initial {
-		
+		// alla ricezione di led on o led off avvia lo script giusto python
+		// gli script python vanno messi nel bin/ del progetto estratto sul raspberry
 	}
 }

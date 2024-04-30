@@ -1,0 +1,22 @@
+System sonarqak24
+
+Context ctxsonar ip[host="localhost" port=8808]
+
+QActor sonarusagemock context ctxsonar {
+	State s0 initial {
+		println("$name STARTS") color green
+	}
+}
+
+QActor sonar24 context ctxsonar {
+	State s0 initial {
+		println("$name STARTS") color blue
+	}
+}
+
+QActor sonardevice context ctxsonar {
+	State s0 initial {
+		println("$name STARTS") color magenta
+		[# Runtime.getRuntime().exec("python sonar.py") #]
+	}
+}
