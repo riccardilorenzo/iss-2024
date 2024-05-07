@@ -16,7 +16,6 @@ plugins {
     //Per poter usare qakfacadegui23-1.0 che usa Spring
     id 'org.springframework.boot' version '2.7.16'
     id 'io.spring.dependency-management' version '1.0.15.RELEASE'
-    
 }
 
 version '1.0'

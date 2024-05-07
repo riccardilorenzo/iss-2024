@@ -14,7 +14,6 @@ import it.unibo.kactor.sysUtil.createActor   //Sept2023
 
 //User imports JAN2024
 import main.resources.robotvirtual.VrobotLLMoves24
-import main.resources.gui.*
 
 class Bw24core ( name: String, scope: CoroutineScope, isconfined: Boolean=false  ) : ActorBasicFsm( name, scope, confined=isconfined ){
 
@@ -29,7 +28,6 @@ class Bw24core ( name: String, scope: CoroutineScope, isconfined: Boolean=false 
 				state("s0") { //this:State
 					action { //it:State
 						CommUtils.outblue("$name STARTS")
-						 GuiUtils.showSystemInfo()  
 						 vr.setTrace(true)   
 						//genTimer( actor, state )
 					}
@@ -41,7 +39,7 @@ class Bw24core ( name: String, scope: CoroutineScope, isconfined: Boolean=false 
 				state("doboundary") { //this:State
 					action { //it:State
 						delay(200) 
-						 vr.forward(2400) 
+						 vr.forward(3000) 
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002

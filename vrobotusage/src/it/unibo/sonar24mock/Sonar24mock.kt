@@ -25,7 +25,9 @@ class Sonar24mock ( name: String, scope: CoroutineScope, isconfined: Boolean=fal
 				state("s0") { //this:State
 					action { //it:State
 						CommUtils.outblue("$name | START")
-						delay(8000) 
+						 
+									p       = Runtime.getRuntime().exec("python sonar.py")
+									reader  = java.io.BufferedReader(  java.io.InputStreamReader(p.getInputStream() ))
 						CommUtils.outblue("$name | ENDS")
 						//genTimer( actor, state )
 					}

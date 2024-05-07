@@ -19,11 +19,11 @@ Context ctxbw24  ip [host="localhost" port=8120     ]
  
 QActor bw24core context ctxbw24 withobj vr using "VrobotLLMoves24.create(\"localhost\",myself)"{
 	import "main.resources.robotvirtual.VrobotLLMoves24"
-	import "main.resources.gui.*" 
+
 	[# var N = 0 #] 
 	State s0 initial{ 
 		println("$name STARTS") color blue
-		[# GuiUtils.showSystemInfo() #]
+		//[# GuiUtils.showSystemInfo() #]
 		[# vr.setTrace(true)  #]
 		//[# VrobotHLCmdGuiLocal(vr) #] //just to have a console ...
 	}
@@ -31,7 +31,7 @@ QActor bw24core context ctxbw24 withobj vr using "VrobotLLMoves24.create(\"local
 	
 	State doboundary{
 		delay 200
-		[# vr.forward(2400)#]  //a long time, so to hit a wall
+		[# vr.forward(3000)#]  //a long time, so to hit a wall
 		//[# vr.step(2400)#]   //come sopra
 		//[# vr.forward(-1) #]  //forever ...
 	}
@@ -71,11 +71,15 @@ QActor bw24core context ctxbw24 withobj vr using "VrobotLLMoves24.create(\"local
 /*
  * In attesa del sonar fisico ...
  */
-QActor sonar24mock context ctxbw24{
+QActor sonar24mock context ctxbw24{		// TODO
 	State s0 initial{ 
 		println("$name | START") color blue
-		delay 8000
+//		delay 8000
 //		emit obstacle : obstacle(10)
+		[# 
+			p       = Runtime.getRuntime().exec("python sonar.py")
+			reader  = java.io.BufferedReader(  java.io.InputStreamReader(p.getInputStream() ))
+		#]
 		println("$name | ENDS")  color blue
 	}  
 } 
