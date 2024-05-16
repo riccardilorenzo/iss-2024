@@ -15,7 +15,6 @@ QActor mapbuilder context ctxmapbuild withobj vr using "VrobotLLMoves24.create(\
 	   var firstcolumn  = true
 	   var firstrow     = false
 	#]
-	
 
 	State s0 initial{ 
 		println("$name STARTS") color blue

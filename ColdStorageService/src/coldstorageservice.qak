@@ -1,0 +1,50 @@
+System coldstorageservice24
+
+Request store : store(KG)
+Reply storeAccepted : storeAccepted(TICKET) for store "ticket N intero identificativo"
+Reply storeRejected : storeRejected(REASON) for store
+
+Request load : load(KG)
+
+Context ctxlocal ip [host="localhost" port=8080]
+
+QActor coldstorageservice context ctxlocal {
+	[# var capacity = 50 #]
+	
+	State s0 initial {
+		delay 200
+		println("$name | Sto partendo...") color blue
+	}
+	Transition t0 whenRequest store -> handleStoreRequest
+	
+	State handleStoreRequest {
+		if [# capacity <= payloadArg(0).toInt() #] {
+			replyTo store with storeAccepted : storeAccepted(1)
+			[# capacity -= payloadArg(0).toInt() #]
+		} else {
+			replyTo store with storeRejected : storeRejected(1)
+		}
+	}
+}
+
+QActor drivermock context ctxlocal {
+	State s0 initial {
+		delay 200
+		println("$name | Sto partendo...") color magenta
+		println("$name | Invio la richiesta di store...") color magenta
+		request coldstorageservice -m store : store(10)
+	}
+	Transition t0 whenReply storeAccepted -> continueWork whenReply storeRejected -> continueWork
+	
+	State continueWork {
+		println("$name | Lo storage ha gestito la mia richiesta, procedo...") color magenta
+		onMsg (storeAccepted : storeAccepted(N)) {
+			println("$name | Richiesta accettata con ticket ${payloadArg(0)}!") color magenta
+		}
+		onMsg (storeRejected : storeRejected(R)) {
+			println("$name | Richiesta rifiutata per: ${payloadArg(0)}") color magenta
+		}
+		delay 1000
+		[# System.exit(0) #]
+	}
+}
