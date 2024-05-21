@@ -1,0 +1,54 @@
+System logicgates
+
+Dispatch signals : signals(F, S)
+
+Context ctxlocal ip [host="localhost" port=8123]
+
+QActor nor context ctxlocal {
+	
+	State s0 initial {
+		delay 200
+		println("$name | Starting...") color magenta
+		autodispatch signals : signals(true, false)
+	}
+	Transition t0 whenMsg signals -> operate
+	
+	State operate {
+		onMsg (signals : signals(F, S)) {
+			println("$name | Ricevuto ${payloadArg(0)} e ${payloadArg(1)}") color magenta
+			delay 500
+			if [# payloadArg(0).toBoolean() == false && payloadArg(1).toBoolean() == false #] {
+				println("$name | Output: TRUE") color magenta
+				forward controller -m signals : signals(R, true)
+			} else {
+				println("$name | Output: FALSE") color magenta
+				forward controller -m signals : signals(R, false)
+			}
+		}
+	}
+	Transition t0 whenMsg signals -> operate
+}
+
+QActor controller context ctxlocal {
+	[# var times = 0 #]
+	
+	State s0 initial {
+		delay 200
+		println("$name | Starting...") color blue
+	}
+	Goto working
+	
+	State working {
+		onMsg (signals : signals(FIRST, SELF)) {
+			[# 
+				times++
+				var F = false //kotlin.random.Random.nextBoolean()
+			   	var S = payloadArg(1)
+			 #]
+			if [# times >= 10 #] { [# System.exit(0) #] }
+			println("$name | Invio $F e $S a NOR...") color blue
+			forward nor -m signals : signals($F, $S)
+		}
+	}
+	Transition t0 whenMsg signals -> working
+}
